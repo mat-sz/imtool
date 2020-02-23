@@ -1,14 +1,24 @@
-# imtool
+<h1 align="center">🔧🖼️ imtool</h1>
 
-Easily generate thumbnails on the client-side. Works well with React. TypeScript is supported.
+<p align="center">
+TypeScript image manipulation library, works on the client side saving you money (and server resources).
+</p>
 
-**Quickstart:**
+<p align="center">
+<strong>Quickstart:</strong>
+</p>
 
 ```sh
 npm install imtool
 # or:
 yarn add imtool
 ```
+
+## Table of contents
+
+1. [Why?](#why)
+2. [Usage](#usage)
+3. [Examples](#examples)
 
 ## Why?
 
