@@ -1,0 +1,38 @@
+{
+  "name": "imtool",
+  "version": "1.0.0",
+  "description": "Client-side canvas-based image manipulation library.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "thumbnail",
+    "react",
+    "front-end",
+    "image",
+    "typescript",
+    "canvas",
+    "image manipulation",
+    "screenshot"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./": "./lib/"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mat-sz/imtool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mat-sz/imtool/issues"
+  },
+  "homepage": "https://github.com/mat-sz/imtool",
+  "author": "mat-sz <contact@matsz.dev>",
+  "license": "BSD-3-Clause-Clear",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
+}
