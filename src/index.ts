@@ -1,5 +1,5 @@
 import { ImTool } from './ImTool';
-import { ImageType, loadImageToImTool } from './Utils';
+import { ImageType, loadImage, fileToDataURL } from './Utils';
 
 /**
  * Creates a new instance of ImTool from a <canvas> element.
@@ -29,6 +29,8 @@ export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
             video.play();
             video.addEventListener('playing', async () => {
                 const tool = await fromVideo(video);
+
+                // Stop tracks to get rid of browser's streaming notification.
                 video.srcObject = null;
                 stream.getTracks().forEach((track) => track.stop());
                 resolve(tool);
@@ -46,72 +48,65 @@ export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
  * The image be from the same origin, or from an origin accessible to the website.
  * @param image The image to be loaded.
  */
-export function fromImage(image: ImageType): Promise<ImTool> {
+export async function fromImage(image: ImageType): Promise<ImTool> {
+    let url: string | undefined;
+
     if (typeof image === 'string') {
-        return new Promise((resolve, reject) => {
-            loadImageToImTool(image, resolve, reject);
-        });
+        url = image;
     } else if (image instanceof Blob || image instanceof File) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.addEventListener('load', () => {
-                loadImageToImTool(reader.result as string, resolve, reject);
-            });
-            reader.readAsDataURL(image);
-        });
+        url = await fileToDataURL(image);
     } else if (image instanceof HTMLImageElement) {
         if (image.complete && image.naturalWidth === 0) {
             return Promise.resolve(new ImTool(image));
         } else {
-            return new Promise((resolve, reject) => {
-                loadImageToImTool(image.src, resolve, reject);
-            });
+            url = image.src;
         }
+    } 
+    
+    if (url) {
+        const img = await loadImage(url);
+        return new ImTool(img);
     } else {
-        return Promise.reject(new Error('Unable to load the image.'));
+        throw new Error('Unable to load the image.');
     }
 };
 
 /**
  * Creates a new instance of ImTool from screen capture.
  */
-export function fromScreen(): Promise<ImTool> {
-    return new Promise(async (resolve, reject) => {
-        // @ts-ignore TS's dom.lib.ts doesn't have support for this, yet.
-        if (!navigator.mediaDevices?.getDisplayMedia) {
-            reject(new Error('Screen capture is not supported.'));
-        }
+export async function fromScreen(): Promise<ImTool> {
+    // @ts-ignore TS's dom.lib.ts doesn't have support for this, yet.
+    if (!navigator.mediaDevices?.getDisplayMedia) {
+        throw new Error('Screen capture is not supported in this browser.');
+    }
 
-        // @ts-ignore TS's dom.lib.ts doesn't have support for this, yet.
-        let stream: MediaStream = await navigator.mediaDevices.getDisplayMedia({
-            video: true
-        });
-
-        if (!stream) {
-            reject(new Error('Unable to start screen capture.'));
-        }
-    
-        resolve(fromMediaStream(stream));
+    // @ts-ignore TS's dom.lib.ts doesn't have support for this, yet.
+    let stream: MediaStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true
     });
+
+    if (!stream) {
+        throw new Error('Unable to start screen capture.');
+    }
+
+    return await fromMediaStream(stream);
 };
 
 /**
  * Creates a new instance of ImTool from webcam capture.
  */
-export function fromWebcam(): Promise<ImTool> {
-    return new Promise(async (resolve, reject) => {
-        if (!navigator.mediaDevices?.getUserMedia) {
-            reject(new Error('Webcam capture is not supported.'));
-        }
+export async function fromWebcam(): Promise<ImTool> {
+    if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error('Webcam capture is not supported in this browser.');
+    }
 
-        let stream: MediaStream = await navigator.mediaDevices.getUserMedia({
-            video: true
-        });
-
-        if (!stream) {
-            reject(new Error('Unable to start webcam capture.'));
-        }
-    
-        resolve(fromMediaStream(stream));
+    let stream: MediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true
     });
+
+    if (!stream) {
+        throw new Error('Unable to start webcam capture.');
+    }
+
+    return await fromMediaStream(stream);
 };

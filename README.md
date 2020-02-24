@@ -17,8 +17,8 @@ yarn add imtool
 ## Table of contents
 
 1. [Why?](#why)
-2. [Usage](#usage)
-3. [Examples](#examples)
+2. [Examples](#examples)
+3. [Usage](#usage)
 
 ## Why?
 
@@ -27,6 +27,41 @@ Client-side image manipulation:
 * reduces server load - image processing being typically one of the most CPU expensive tasks in image storage systems,
 * allows for end to end encryption of thumbnails along with the original images, 
 * allows for easy usage within Electron without relying on external tools like Imagemagick.
+
+## Examples
+
+### Load an image, create a thumbnail and export it as data URL
+
+```js
+import { fromImage } from 'imtool';
+
+async function example() {
+    const tool = await fromImage('./image.png');
+    return await tool.thumbnail(250).toDataURL();
+}
+```
+
+### Load a screenshot, crop a part of it and export it as a Blob
+
+```js
+import { fromScreen } from 'imtool';
+
+async function example() {
+    const tool = await fromScreen();
+    return await tool.crop(50, 50, 200, 200).toBlob();
+}
+```
+
+### Load a webcam capture, crop a part of it, create a thumbnail and export as data URL
+
+```js
+import { fromWebcam } from 'imtool';
+
+async function example() {
+    const tool = await fromWebcam();
+    return await tool.crop(50, 50, 500, 500).thumbnail(250).toDataURL();
+}
+```
 
 ## Usage
 
@@ -112,38 +147,3 @@ Causes the resulting file to be downloaded by the browser with a given name.
 #### toFile(name: string): Promise\<File\>
 
 Outputs a `File` that can be easily sent with `FormData`.
-
-## Examples
-
-### Load an image, create a thumbnail and export it as data URL
-
-```js
-import { fromImage } from 'imtool';
-
-async function example() {
-    const tool = await fromImage('./image.png');
-    return await tool.thumbnail(250).toDataURL();
-}
-```
-
-### Load a screenshot, crop a part of it and export it as a Blob
-
-```js
-import { fromScreen } from 'imtool';
-
-async function example() {
-    const tool = await fromScreen();
-    return await tool.crop(50, 50, 200, 200).toBlob();
-}
-```
-
-### Load a webcam capture, crop a part of it, create a thumbnail and export as data URL
-
-```js
-import { fromWebcam } from 'imtool';
-
-async function example() {
-    const tool = await fromWebcam();
-    return await tool.crop(50, 50, 500, 500).thumbnail(250).toDataURL();
-}
-```
