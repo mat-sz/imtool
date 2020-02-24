@@ -32,7 +32,7 @@ Client-side image manipulation:
 
 ### Import
 
-`imtool` provides 3 easy to use `from*` functions, **all of the functions return a Promise**:
+`imtool` provides 6 easy to use `from*` functions, **all of the functions return a Promise**:
 
 #### fromImage(image: string | Blob | File | HTMLImageElement)
 
@@ -45,6 +45,12 @@ Creates an instance of `ImTool` from an URL, Blob, File or HTMLImageElement.
 Creates an instance of `ImTool` from an HTMLVideoElement.
 
 **The video must be accessible to the current origin, by either being from the same origin or by being from an origin specified in `Access-Control-Allow-Origin` header on the response from the desired URL.**
+
+#### fromCanvas(video: HTMLCanvasElement)
+
+Creates an instance of `ImTool` from an HTMLCanvasElement.
+
+**The canvas must not be [tainted](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image#Security_and_tainted_canvases).**
 
 #### fromWebcam()
 

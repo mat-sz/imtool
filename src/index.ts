@@ -2,6 +2,14 @@ import { ImTool } from './ImTool';
 import { ImageType, loadImageToImTool } from './Utils';
 
 /**
+ * Creates a new instance of ImTool from a <canvas> element.
+ * @param video 
+ */
+export function fromCanvas(canvas: HTMLCanvasElement): Promise<ImTool> {
+    return Promise.resolve(new ImTool(canvas));
+};
+
+/**
  * Creates a new instance of ImTool from a <video> element. (Must be during playback.)
  * @param video 
  */
