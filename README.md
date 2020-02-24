@@ -91,6 +91,14 @@ Outputs a Blob.
 
 Outputs a data URL.
 
+#### toCanvas(): Promise\<HTMLCanvasElement\>
+
+Outputs a `<canvas>`.
+
+#### toImage(): Promise\<HTMLImageElement\>
+
+Outputs an `<img>`.
+
 ## Examples
 
 ### Load an image, create a thumbnail and export it as data URL

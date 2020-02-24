@@ -1,3 +1,5 @@
+import { loadImage } from './Utils';
+
 export class ImTool {
     private canvas = document.createElement('canvas');
     private ctx = this.canvas.getContext('2d');
@@ -62,7 +64,7 @@ export class ImTool {
             throw new Error('Context initialization failure.');
         }
 
-        ctx?.drawImage(this.canvas, -x, -y, this.canvas.width, this.canvas.height);
+        ctx.drawImage(this.canvas, -x, -y, this.canvas.width, this.canvas.height);
         this.canvas = newCanvas;
 
         return this;
@@ -88,7 +90,7 @@ export class ImTool {
             throw new Error('Context initialization failure.');
         }
 
-        ctx?.drawImage(this.canvas, 0, 0, width, height);
+        ctx.drawImage(this.canvas, 0, 0, width, height);
         this.canvas = newCanvas;
 
         return this;
@@ -140,7 +142,7 @@ export class ImTool {
             newCanvas.height = height;
         }
 
-        ctx?.drawImage(this.canvas, x, y, width, height);
+        ctx.drawImage(this.canvas, x, y, width, height);
         this.canvas = newCanvas;
 
         return this;
@@ -197,4 +199,33 @@ export class ImTool {
             }
         });
     }
+
+    /**
+     * Exports the resulting image as HTMLCanvasElement.
+     */
+    toCanvas(): Promise<HTMLCanvasElement> {
+        return new Promise((resolve, reject) => {
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = this.canvas.width;
+            newCanvas.height = this.canvas.height;
+
+            const ctx = newCanvas.getContext('2d');
+
+            if (!ctx) {
+                throw new Error('Context initialization failure.');
+            }
+
+            ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
+
+            resolve(newCanvas);
+        });
+    };
+
+    /**
+     * Exports the resulting image as a HTMLImageElement.
+     */
+    async toImage(): Promise<HTMLImageElement> {
+        const url = await this.toDataURL();
+        return await loadImage(url);
+    };
 };

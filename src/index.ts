@@ -1,21 +1,5 @@
 import { ImTool } from './ImTool';
-
-export type ImageType = string | Blob | File | HTMLImageElement;
-
-const waitForImageToLoad = (src: string, resolve: (image: ImTool) => void, reject: (error: any) => void) => {
-    let img = new Image();
-
-    img.onload = () => {
-        resolve(new ImTool(img));
-    };
-
-    img.onerror = (err) => {
-        // The image couldn't be loaded.
-        reject(err);
-    };
-
-    img.src = src;
-};
+import { ImageType, loadImageToImTool } from './Utils';
 
 /**
  * Creates a new instance of ImTool from a <video> element. (Must be during playback.)
@@ -57,13 +41,13 @@ export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
 export function fromImage(image: ImageType): Promise<ImTool> {
     if (typeof image === 'string') {
         return new Promise((resolve, reject) => {
-            waitForImageToLoad(image, resolve, reject);
+            loadImageToImTool(image, resolve, reject);
         });
     } else if (image instanceof Blob || image instanceof File) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.addEventListener('load', () => {
-                waitForImageToLoad(reader.result as string, resolve, reject);
+                loadImageToImTool(reader.result as string, resolve, reject);
             });
             reader.readAsDataURL(image);
         });
@@ -72,7 +56,7 @@ export function fromImage(image: ImageType): Promise<ImTool> {
             return Promise.resolve(new ImTool(image));
         } else {
             return new Promise((resolve, reject) => {
-                waitForImageToLoad(image.src, resolve, reject);
+                loadImageToImTool(image.src, resolve, reject);
             });
         }
     } else {
