@@ -228,4 +228,27 @@ export class ImTool {
         const url = await this.toDataURL();
         return await loadImage(url);
     };
+
+    /**
+     * Downloads the resulting image.
+     * @param name
+     */
+    async toDownload(name: string) {
+        const url = await this.toDataURL();
+        const element = document.createElement('a');
+        element.setAttribute('href', url);
+        element.setAttribute('download', name);
+
+        element.style.display = 'none';
+        element.click();
+    }
+
+    /**
+     * Exports the resulting image as File.
+     * @param name
+     */
+    async toFile(name: string) {
+        const blob = await this.toBlob();
+        return new File([ blob ], name);
+    }
 };

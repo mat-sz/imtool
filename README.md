@@ -105,6 +105,14 @@ Outputs a `<canvas>`.
 
 Outputs an `<img>`.
 
+#### toDownload(name: string): Promise
+
+Causes the resulting file to be downloaded by the browser with a given name.
+
+#### toFile(name: string): Promise\<File\>
+
+Outputs a `File` that can be easily sent with `FormData`.
+
 ## Examples
 
 ### Load an image, create a thumbnail and export it as data URL
