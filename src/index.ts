@@ -17,26 +17,40 @@ const waitForImageToLoad = (src: string, resolve: (image: ImTool) => void, rejec
     img.src = src;
 };
 
-const fromMediaStream = (stream: MediaStream) => new Promise<ImTool>(
-    async (resolve, reject) => {
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.play();
-        video.addEventListener('playing', () => {
-            const tool = new ImTool(video);
-            video.srcObject = null;
-            stream.getTracks().forEach((track) => track.stop());
-            resolve(tool);
-        });
-
-        video.addEventListener('error', (e) => {
-            reject(e);
-        });
-    }
-);
+/**
+ * Creates a new instance of ImTool from a <video> element. (Must be during playback.)
+ * @param video 
+ */
+export function fromVideo(video: HTMLVideoElement): Promise<ImTool> {
+    return Promise.resolve(new ImTool(video));
+};
 
 /**
- * Creates a new instance of ImTool from an image URL, Blob, File or an image element.
+ * Creates a new instance of IMTool from a MediaStream. (Must contain at least one video track.)
+ * @param stream 
+ */
+export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
+    return new Promise<ImTool>(
+        async (resolve, reject) => {
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+            video.addEventListener('playing', async () => {
+                const tool = await fromVideo(video);
+                video.srcObject = null;
+                stream.getTracks().forEach((track) => track.stop());
+                resolve(tool);
+            });
+    
+            video.addEventListener('error', (e) => {
+                reject(e);
+            });
+        }
+    );
+};
+
+/**
+ * Creates a new instance of ImTool from an image URL, Blob, File or an <img> element.
  * The image be from the same origin, or from an origin accessible to the website.
  * @param image The image to be loaded.
  */

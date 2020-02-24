@@ -1,4 +1,4 @@
-<h1 align="center">🔧🖼️ imtool</h1>
+<h1 align="center">🖼️🔧 imtool</h1>
 
 <p align="center">
 TypeScript image manipulation library, works on the client side saving you money (and server resources).
@@ -38,7 +38,13 @@ Client-side image manipulation:
 
 Creates an instance of `ImTool` from an URL, Blob, File or HTMLImageElement.
 
-**In case of URL and HTMLImageElement being used the image must be accessible to the current origin, by either being from the same origin or by being from an origin specified in `Access-Control-Allow-Origin` header on the response from the desired URL.`
+**In case of URL and HTMLImageElement being used the image must be accessible to the current origin, by either being from the same origin or by being from an origin specified in `Access-Control-Allow-Origin` header on the response from the desired URL.**
+
+#### fromVideo(video: HTMLVideoElement)
+
+Creates an instance of `ImTool` from an HTMLVideoElement.
+
+**The video must be accessible to the current origin, by either being from the same origin or by being from an origin specified in `Access-Control-Allow-Origin` header on the response from the desired URL.**
 
 #### fromWebcam()
 
@@ -51,6 +57,10 @@ Asks the user for the permission to access their webcam, captures the image, and
 Asks the user for the permission to access their desktop capture, captures the image, and creates an instance of `ImTool`.
 
 **Must be called directly from an user action, for example: a button press. May be not supported on some browsers, like Safari (including all internet browsers on iOS), Internet Explorer and older versions of other browsers.**
+
+#### fromMediaStream(stream: MediaStream)
+
+Creates an instance of `ImTool` from MediaStream (must contain at least one video track).
 
 ### Image manipulation
 
