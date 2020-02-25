@@ -97,6 +97,49 @@ export class ImTool {
     }
 
     /**
+     * Flips the image.
+     * @param vertical When true the image will be flipped vertically, otherwise it will be flipped horizontally.
+     */
+    flip(vertical = false) {
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = this.canvas.width;
+        newCanvas.height = this.canvas.height;
+
+        const ctx = newCanvas.getContext('2d');
+
+        if (!ctx) {
+            throw new Error('Context initialization failure.');
+        }
+
+        if (vertical) {
+            ctx.translate(0, this.canvas.height);
+            ctx.scale(1, -1);
+        } else {
+            ctx.translate(this.canvas.width, 0);
+            ctx.scale(-1, 1);
+        }
+
+        ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
+        this.canvas = newCanvas;
+
+        return this;
+    }
+
+    /**
+     * Flips the image horizontally.
+     */
+    flipH() {
+        return this.flip(false);
+    }
+
+    /**
+     * Flips the image vertically.
+     */
+    flipV() {
+        return this.flip(true);
+    }
+
+    /**
      * Generates a thumbnail.
      * @param maxSize Maximum width or height.
      * @param cover When true this will cause the thumbnail to be a square and image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off. Default: false.

@@ -19,6 +19,9 @@ yarn add imtool
 1. [Why?](#why)
 2. [Examples](#examples)
 3. [Usage](#usage)
+    - [Import](#import)
+    - [Image manipulation](#image-manipulation)
+    - [Export](#export)
 
 ## Why?
 
@@ -121,6 +124,14 @@ Scales the image down/up to specified `width` and `height`.
 #### crop(x: number, y: number, width: number, height: number)
 
 Moves the input image from (`x`, `y`) to (0, 0) and crops it down to the specified `width` and `height`.
+
+#### flipV()
+
+Flips the image vertically.
+
+#### flipH()
+
+Flips the image horizontally.
 
 ### Export
 
