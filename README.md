@@ -1,7 +1,7 @@
 <h1 align="center">🖼️🔧 imtool</h1>
 
 <p align="center">
-TypeScript image manipulation library, works on the client side saving you money (and server resources).
+Canvas-based TypeScript image manipulation library.
 </p>
 
 <p align="center">
@@ -27,9 +27,9 @@ yarn add imtool
 
 Client-side image manipulation:
 
-* reduces server load - image processing being typically one of the most CPU expensive tasks in image storage systems,
 * allows for end to end encryption of thumbnails along with the original images, 
-* allows for easy usage within Electron without relying on external tools like Imagemagick.
+* allows for easy usage within Electron without relying on external tools like Imagemagick,
+* allows for cropping and compressing the image on the client side without quality loss.
 
 ## Examples
 
