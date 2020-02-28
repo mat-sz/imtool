@@ -53,7 +53,7 @@ export async function fromImage(image: ImageType): Promise<ImTool> {
 
     if (typeof image === 'string') {
         url = image;
-    } else if (image instanceof Blob || image instanceof File) {
+    } else if (image instanceof Blob) {
         url = await fileToDataURL(image);
     } else if (image instanceof HTMLImageElement) {
         if (image.complete && image.naturalWidth === 0) {

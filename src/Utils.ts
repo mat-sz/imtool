@@ -1,6 +1,6 @@
 export type ImageType = string | Blob | File | HTMLImageElement;
 
-export const fileToDataURL = (file: Blob | File) => new Promise<string>((resolve, reject) => {
+export const fileToDataURL = (file: Blob) => new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     
     reader.addEventListener('load', () => {
