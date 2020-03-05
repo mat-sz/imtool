@@ -22,6 +22,7 @@ yarn add imtool
     - [Import](#import)
     - [Image manipulation](#image-manipulation)
     - [Export](#export)
+    - [Properties](#properties)
 
 ## Why?
 
@@ -158,3 +159,15 @@ Causes the resulting file to be downloaded by the browser with a given name.
 #### toFile(name: string): Promise\<File\>
 
 Outputs a `File` that can be easily sent with `FormData`.
+
+### Properties
+
+**All of the following are readonly unless noted otherwise.**
+
+#### width: number
+
+Width of the output image.
+
+#### height: number
+
+Height of the output image.

@@ -42,6 +42,14 @@ export class ImTool {
         }
     }
 
+    get width() {
+        return this.canvas.width;
+    }
+
+    get height() {
+        return this.canvas.height;
+    }
+
     /**
      * Crops the image.
      * @param x Horizontal offset.
