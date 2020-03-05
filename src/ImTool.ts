@@ -5,6 +5,9 @@ export class ImTool {
     private ctx = this.canvas.getContext('2d');
     private outputType = 'image/jpeg';
     private outputQuality = 0.7;
+    
+    readonly originalWidth: number;
+    readonly originalHeight: number;
 
     /**
      * Constructs a new ImTool instance from a loaded image.
@@ -28,6 +31,9 @@ export class ImTool {
             this.canvas.width = image.width;
             this.canvas.height = image.height;
         }
+
+        this.originalWidth = this.canvas.width;
+        this.originalHeight = this.canvas.height;
 
         if (!this.ctx) {
             throw new Error('Context initialization failure.');

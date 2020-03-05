@@ -171,3 +171,11 @@ Width of the output image.
 #### height: number
 
 Height of the output image.
+
+#### originalWidth: number
+
+Width of the input image.
+
+#### originalHeight: number
+
+Height of the input image.
