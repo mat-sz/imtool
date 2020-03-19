@@ -1,4 +1,4 @@
-<h1 align="center">🖼️🔧 imtool</h1>
+<h1 align="center">🖼️🔧 imtool &bull; <a href="https://demo.matsz.dev/imtool/">demo</a></h1>
 
 <p align="center">
 Canvas-based TypeScript image manipulation library.
@@ -33,6 +33,10 @@ Client-side image manipulation:
 * allows for cropping and compressing the image on the client side without quality loss.
 
 ## Examples
+
+### Demo
+
+The source code of the [live demo](https://demo.matsz.dev/imtool/) is available here: https://github.com/mat-sz/imtool-demo
 
 ### Load an image, create a thumbnail and export it as data URL
 
