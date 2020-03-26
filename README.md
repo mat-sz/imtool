@@ -19,18 +19,18 @@ yarn add imtool
 1. [Why?](#why)
 2. [Examples](#examples)
 3. [Usage](#usage)
-    - [Import](#import)
-    - [Image manipulation](#image-manipulation)
-    - [Export](#export)
-    - [Properties](#properties)
+   - [Import](#import)
+   - [Image manipulation](#image-manipulation)
+   - [Export](#export)
+   - [Properties](#properties)
 
 ## Why?
 
 Client-side image manipulation:
 
-* allows for end to end encryption of thumbnails along with the original images, 
-* allows for easy usage within Electron without relying on external tools like Imagemagick,
-* allows for cropping and compressing the image on the client side without quality loss.
+- allows for end to end encryption of thumbnails along with the original images,
+- allows for easy usage within Electron without relying on external tools like Imagemagick,
+- allows for cropping and compressing the image on the client side without quality loss.
 
 ## Examples
 
@@ -44,8 +44,8 @@ The source code of the [live demo](https://demo.matsz.dev/imtool/) is available 
 import { fromImage } from 'imtool';
 
 async function example() {
-    const tool = await fromImage('./image.png');
-    return await tool.thumbnail(250).toDataURL();
+  const tool = await fromImage('./image.png');
+  return await tool.thumbnail(250).toDataURL();
 }
 ```
 
@@ -55,8 +55,8 @@ async function example() {
 import { fromScreen } from 'imtool';
 
 async function example() {
-    const tool = await fromScreen();
-    return await tool.crop(50, 50, 200, 200).toBlob();
+  const tool = await fromScreen();
+  return await tool.crop(50, 50, 200, 200).toBlob();
 }
 ```
 
@@ -66,8 +66,11 @@ async function example() {
 import { fromWebcam } from 'imtool';
 
 async function example() {
-    const tool = await fromWebcam();
-    return await tool.crop(50, 50, 500, 500).thumbnail(250).toDataURL();
+  const tool = await fromWebcam();
+  return await tool
+    .crop(50, 50, 500, 500)
+    .thumbnail(250)
+    .toDataURL();
 }
 ```
 
@@ -119,8 +122,8 @@ All functions return the same instance of `ImTool`, allowing for easy chaining.
 
 Creates a thumbnail. The code for this comes from my older project, [nailit](https://github.com/mat-sz/nailit).
 
-* `maxSize` specifies the maximum size (either width or height) of the resulting image.
-* `cover` when set to true will cause the resulting image to be a square and the input image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off.
+- `maxSize` specifies the maximum size (either width or height) of the resulting image.
+- `cover` when set to true will cause the resulting image to be a square and the input image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off.
 
 #### scale(width: number, height: number)
 
