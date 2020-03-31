@@ -18,7 +18,7 @@ export function fromVideo(video: HTMLVideoElement): Promise<ImTool> {
 }
 
 /**
- * Creates a new instance of IMTool from a MediaStream. (Must contain at least one video track.)
+ * Creates a new instance of ImTool from a MediaStream. (Must contain at least one video track.)
  * @param stream
  */
 export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
