@@ -67,10 +67,7 @@ import { fromWebcam } from 'imtool';
 
 async function example() {
   const tool = await fromWebcam();
-  return await tool
-    .crop(50, 50, 500, 500)
-    .thumbnail(250)
-    .toDataURL();
+  return await tool.crop(50, 50, 500, 500).thumbnail(250).toDataURL();
 }
 ```
 
@@ -146,6 +143,10 @@ Flips the image horizontally.
 #### toBlob(): Promise\<Blob\>
 
 Outputs a Blob.
+
+#### toBlobURL(): Promise\<string\>
+
+Outputs a blob URL.
 
 #### toDataURL(): Promise\<string\>
 

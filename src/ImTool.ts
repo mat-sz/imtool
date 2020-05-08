@@ -267,6 +267,13 @@ export class ImTool {
   }
 
   /**
+   * Exports the resulting image as blob URL.
+   */
+  async toBlobURL(): Promise<string> {
+    return URL.createObjectURL(await this.toBlob());
+  }
+
+  /**
    * Exports the resulting image as data URL.
    */
   toDataURL(): Promise<string> {
