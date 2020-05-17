@@ -121,4 +121,110 @@ describe('image manipulation', () => {
     const data = newCtx.getImageData(199, 0, 1, 1);
     expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
   });
+
+  it('rotates the image (45deg)', async () => {
+    const canvas = createCanvas(100, 200);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 100, 200);
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(0, 0, 1, 1);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.rotateDeg(45);
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(212);
+    expect(newCanvas.height).toBe(212);
+  });
+
+  it('rotates the image (90deg)', async () => {
+    const canvas = createCanvas(100, 200);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 100, 200);
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(0, 0, 1, 1);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.rotateDeg(90);
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(200);
+    expect(newCanvas.height).toBe(100);
+
+    const newCtx = newCanvas.getContext('2d');
+    const data = newCtx.getImageData(199, 0, 1, 1);
+    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+  });
+
+  it('rotates the image (180deg)', async () => {
+    const canvas = createCanvas(100, 200);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 100, 200);
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(0, 0, 1, 1);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.rotateDeg(180);
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(100);
+    expect(newCanvas.height).toBe(200);
+
+    const newCtx = newCanvas.getContext('2d');
+    const data = newCtx.getImageData(99, 199, 1, 1);
+    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+  });
+
+  it('rotates the image (270deg)', async () => {
+    const canvas = createCanvas(100, 200);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 100, 200);
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(0, 0, 1, 1);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.rotateDeg(270);
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(200);
+    expect(newCanvas.height).toBe(100);
+
+    const newCtx = newCanvas.getContext('2d');
+    const data = newCtx.getImageData(0, 99, 1, 1);
+    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+  });
+
+  it('rotates the image (360deg)', async () => {
+    const canvas = createCanvas(100, 200);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, 100, 200);
+    ctx.fillStyle = '#f00';
+    ctx.fillRect(0, 0, 1, 1);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.rotateDeg(360);
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(100);
+    expect(newCanvas.height).toBe(200);
+
+    const newCtx = newCanvas.getContext('2d');
+    const data = newCtx.getImageData(0, 0, 1, 1);
+    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+  });
 });
