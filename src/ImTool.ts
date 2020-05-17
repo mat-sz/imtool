@@ -225,6 +225,59 @@ export class ImTool {
   }
 
   /**
+   * Rotates the image by a given amount of radians relative to the center of the image. This will change the size of the canvas to fit new image.
+   * @param rad Radians.
+   */
+  rotate(rad: number) {
+    const newCanvas = document.createElement('canvas');
+
+    let angle = rad % (Math.PI * 2);
+    if (angle > Math.PI / 2) {
+      if (angle <= Math.PI) {
+        angle = Math.PI - angle;
+      } else if (angle <= (Math.PI * 3) / 2) {
+        angle = angle - Math.PI;
+      } else {
+        angle = Math.PI * 2 - angle;
+      }
+    }
+
+    // Optimal dimensions for image after rotation.
+    newCanvas.width =
+      this.canvas.width * Math.cos(angle) +
+      this.canvas.height * Math.cos(Math.PI / 2 - angle);
+    newCanvas.height =
+      this.canvas.width * Math.sin(angle) +
+      this.canvas.height * Math.sin(Math.PI / 2 - angle);
+
+    const ctx = newCanvas.getContext('2d');
+
+    if (!ctx) {
+      throw new Error('Context initialization failure.');
+    }
+
+    ctx.save();
+
+    ctx.translate(newCanvas.width / 2, newCanvas.height / 2);
+    ctx.rotate(rad);
+    ctx.drawImage(this.canvas, -this.canvas.width / 2, -this.canvas.height / 2);
+
+    ctx.restore();
+
+    this.canvas = newCanvas;
+
+    return this;
+  }
+
+  /**
+   * Rotates the image by a given amount of degrees relative to the center of the image. This will change the size of the canvas to fit new image.
+   * @param degrees Degrees.
+   */
+  rotateDeg(degrees: number) {
+    return this.rotate((degrees * Math.PI) / 180);
+  }
+
+  /**
    * Sets the input type. (Default: image/jpeg)
    * @param type Type, can be anything supported by the browser, common examples: image/jpeg and image/png.
    */

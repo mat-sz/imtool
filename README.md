@@ -138,6 +138,14 @@ Flips the image vertically.
 
 Flips the image horizontally.
 
+#### rotate(rad: number)
+
+Rotates the input image by `rad` radians relative to the center of the image. The output image size will be increased to fit the entire rotated image.
+
+#### rotateDeg(degrees: number)
+
+Rotates the input image by `degrees` degrees relative to the center of the image. The output image size will be increased to fit the entire rotated image.
+
 ### Export
 
 #### toBlob(): Promise\<Blob\>
