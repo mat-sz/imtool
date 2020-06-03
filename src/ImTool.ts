@@ -64,11 +64,11 @@ export class ImTool {
     }
   }
 
-  get width() {
+  get width(): number {
     return this.canvas.width;
   }
 
-  get height() {
+  get height(): number {
     return this.canvas.height;
   }
 
@@ -79,7 +79,7 @@ export class ImTool {
    * @param width Width.
    * @param height Height.
    */
-  crop(x: number, y: number, width: number, height: number) {
+  crop(x: number, y: number, width: number, height: number): ImTool {
     if (width <= 0 || height <= 0) {
       throw new Error('All arguments must be postive.');
     }
@@ -105,7 +105,7 @@ export class ImTool {
    * @param width New width.
    * @param height New height.
    */
-  scale(width: number, height: number) {
+  scale(width: number, height: number): ImTool {
     if (width <= 0 || height <= 0) {
       throw new Error('All arguments must be postive.');
     }
@@ -130,7 +130,7 @@ export class ImTool {
    * Flips the image.
    * @param vertical When true the image will be flipped vertically, otherwise it will be flipped horizontally.
    */
-  flip(vertical = false) {
+  flip(vertical = false): ImTool {
     const newCanvas = document.createElement('canvas');
     newCanvas.width = this.canvas.width;
     newCanvas.height = this.canvas.height;
@@ -158,14 +158,14 @@ export class ImTool {
   /**
    * Flips the image horizontally.
    */
-  flipH() {
+  flipH(): ImTool {
     return this.flip(false);
   }
 
   /**
    * Flips the image vertically.
    */
-  flipV() {
+  flipV(): ImTool {
     return this.flip(true);
   }
 
@@ -174,7 +174,7 @@ export class ImTool {
    * @param maxSize Maximum width or height.
    * @param cover When true this will cause the thumbnail to be a square and image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off. Default: false.
    */
-  thumbnail(maxSize: number, cover = false) {
+  thumbnail(maxSize: number, cover = false): ImTool {
     const newCanvas = document.createElement('canvas');
     const ctx = newCanvas.getContext('2d');
 
@@ -228,7 +228,7 @@ export class ImTool {
    * Rotates the image by a given amount of radians relative to the center of the image. This will change the size of the canvas to fit new image.
    * @param rad Radians.
    */
-  rotate(rad: number) {
+  rotate(rad: number): ImTool {
     const newCanvas = document.createElement('canvas');
 
     let angle = rad % (Math.PI * 2);
@@ -273,7 +273,7 @@ export class ImTool {
    * Rotates the image by a given amount of degrees relative to the center of the image. This will change the size of the canvas to fit new image.
    * @param degrees Degrees.
    */
-  rotateDeg(degrees: number) {
+  rotateDeg(degrees: number): ImTool {
     return this.rotate((degrees * Math.PI) / 180);
   }
 
@@ -281,7 +281,7 @@ export class ImTool {
    * Sets the input type. (Default: image/jpeg)
    * @param type Type, can be anything supported by the browser, common examples: image/jpeg and image/png.
    */
-  type(type: string) {
+  type(type: string): ImTool {
     this.outputType = type;
     return this;
   }
@@ -290,7 +290,7 @@ export class ImTool {
    * Sets the quality for lossy compression (like image/jpeg). Default: 0.7.
    * @param quality Quality from 0 to 1.
    */
-  quality(quality: number) {
+  quality(quality: number): ImTool {
     this.outputQuality = quality;
     return this;
   }
@@ -373,7 +373,7 @@ export class ImTool {
    * Downloads the resulting image.
    * @param name
    */
-  async toDownload(name: string) {
+  async toDownload(name: string): Promise<void> {
     const url = await this.toDataURL();
     const element = document.createElement('a');
     element.setAttribute('href', url);
@@ -387,7 +387,7 @@ export class ImTool {
    * Exports the resulting image as File.
    * @param name
    */
-  async toFile(name: string) {
+  async toFile(name: string): Promise<File> {
     const blob = await this.toBlob();
     return new File([blob], name);
   }

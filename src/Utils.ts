@@ -1,7 +1,7 @@
 export type ImageType = string | Blob | File | HTMLImageElement;
 
-export const fileToDataURL = (file: Blob) =>
-  new Promise<string>((resolve, reject) => {
+export function fileToDataURL(file: Blob): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
 
     reader.addEventListener('load', () => {
@@ -14,10 +14,11 @@ export const fileToDataURL = (file: Blob) =>
 
     reader.readAsDataURL(file);
   });
+}
 
-export const loadImage = (src: string) =>
-  new Promise<HTMLImageElement>((resolve, reject) => {
-    let img = new Image();
+export function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
 
     img.onload = () => {
       resolve(img);
@@ -30,3 +31,4 @@ export const loadImage = (src: string) =>
 
     img.src = src;
   });
+}

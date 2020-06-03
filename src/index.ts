@@ -22,7 +22,7 @@ export function fromVideo(video: HTMLVideoElement): Promise<ImTool> {
  * @param stream
  */
 export function fromMediaStream(stream: MediaStream): Promise<ImTool> {
-  return new Promise<ImTool>(async (resolve, reject) => {
+  return new Promise<ImTool>((resolve, reject) => {
     const video = document.createElement('video');
     video.srcObject = stream;
     video.play();
@@ -79,7 +79,7 @@ export async function fromScreen(): Promise<ImTool> {
   }
 
   // @ts-ignore TS's dom.lib.ts doesn't have support for this, yet.
-  let stream: MediaStream = await navigator.mediaDevices.getDisplayMedia({
+  const stream: MediaStream = await navigator.mediaDevices.getDisplayMedia({
     video: true,
   });
 
@@ -98,7 +98,7 @@ export async function fromWebcam(): Promise<ImTool> {
     throw new Error('Webcam capture is not supported in this browser.');
   }
 
-  let stream: MediaStream = await navigator.mediaDevices.getUserMedia({
+  const stream: MediaStream = await navigator.mediaDevices.getUserMedia({
     video: true,
   });
 
