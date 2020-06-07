@@ -5,6 +5,15 @@ Canvas-based TypeScript image manipulation library.
 </p>
 
 <p align="center">
+<img alt="Travis (.com)" src="https://img.shields.io/travis/com/mat-sz/imtool">
+<a href="https://npmjs.com/package/imtool">
+<img alt="npm" src="https://img.shields.io/npm/v/imtool">
+<img alt="npm" src="https://img.shields.io/npm/dw/imtool">
+<img alt="NPM" src="https://img.shields.io/npm/l/imtool">
+</a>
+</p>
+
+<p align="center">
 <strong>Quickstart:</strong>
 </p>
 
