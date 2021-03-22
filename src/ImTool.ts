@@ -352,7 +352,8 @@ export class ImTool {
       const ctx = newCanvas.getContext('2d');
 
       if (!ctx) {
-        throw new Error('Context initialization failure.');
+        reject(new Error('Context initialization failure.'));
+        return;
       }
 
       ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
