@@ -30,6 +30,7 @@ yarn add imtool
 3. [Usage](#usage)
    - [Import](#import)
    - [Image manipulation](#image-manipulation)
+   - [Export options](#export-options)
    - [Export](#export)
    - [Properties](#properties)
 
@@ -154,6 +155,16 @@ Rotates the input image by `rad` radians relative to the center of the image. Th
 #### rotateDeg(degrees: number)
 
 Rotates the input image by `degrees` degrees relative to the center of the image. The output image size will be increased to fit the entire rotated image.
+
+### Export options
+
+#### type(type: string)
+
+Sets the output mimetype (most commmonly supported ones are `image/jpeg` and `image/png`).
+
+#### quality(quality: number)
+
+Output quality (for lossy compression), a number between 0.0 and 1.0.
 
 ### Export
 
