@@ -19,8 +19,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(100);
     expect(newCanvas.height).toBe(100);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(0, 0, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(0, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -41,8 +41,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(100);
     expect(newCanvas.height).toBe(100);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(0, 0, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(0, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -95,8 +95,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(200);
     expect(newCanvas.height).toBe(200);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(0, 199, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(0, 199, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -117,8 +117,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(200);
     expect(newCanvas.height).toBe(200);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(199, 0, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(199, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -157,8 +157,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(200);
     expect(newCanvas.height).toBe(100);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(199, 0, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(199, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -179,8 +179,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(100);
     expect(newCanvas.height).toBe(200);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(99, 199, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(99, 199, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -201,8 +201,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(200);
     expect(newCanvas.height).toBe(100);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(0, 99, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(0, 99, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
@@ -223,8 +223,8 @@ describe('image manipulation', () => {
     expect(newCanvas.width).toBe(100);
     expect(newCanvas.height).toBe(200);
 
-    const newCtx = newCanvas.getContext('2d');
-    const data = newCtx!.getImageData(0, 0, 1, 1);
+    const newCtx = newCanvas.getContext('2d')!;
+    const data = newCtx.getImageData(0, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 });
