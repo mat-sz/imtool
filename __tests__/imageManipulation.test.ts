@@ -20,8 +20,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(100);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(0, 0, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(0, 0, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('scales images', async () => {
@@ -42,8 +42,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(100);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(0, 0, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(0, 0, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('creates thumbnails (cover: false)', async () => {
@@ -96,8 +96,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(200);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(0, 199, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(0, 199, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('flips images horizontally', async () => {
@@ -118,8 +118,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(200);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(199, 0, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(199, 0, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('rotates the image (45deg)', async () => {
@@ -158,8 +158,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(100);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(199, 0, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(199, 0, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('rotates the image (180deg)', async () => {
@@ -180,8 +180,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(200);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(99, 199, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(99, 199, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('rotates the image (270deg)', async () => {
@@ -202,8 +202,8 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(100);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(0, 99, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(0, 99, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 
   it('rotates the image (360deg)', async () => {
@@ -224,7 +224,7 @@ describe('image manipulation', () => {
     expect(newCanvas.height).toBe(200);
 
     const newCtx = newCanvas.getContext('2d');
-    const data = newCtx.getImageData(0, 0, 1, 1);
-    expect(data.data).toEqual(new Uint8ClampedArray([255, 0, 0, 255]));
+    const data = newCtx!.getImageData(0, 0, 1, 1);
+    expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
 });
