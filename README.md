@@ -156,6 +156,10 @@ Rotates the input image by `rad` radians relative to the center of the image. Th
 
 Rotates the input image by `degrees` degrees relative to the center of the image. The output image size will be increased to fit the entire rotated image.
 
+#### background(color: string)
+
+Set the background color of the current image.
+
 ### Export options
 
 #### type(type: string)
