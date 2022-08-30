@@ -227,4 +227,28 @@ describe('image manipulation', () => {
     const data = newCtx.getImageData(0, 0, 1, 1);
     expect(Array.from(data.data)).toEqual([255, 0, 0, 255]);
   });
+
+  it('adds background to transparent images', async () => {
+    const canvas = createCanvas(100, 100);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 100, 100);
+    ctx.clearRect(0, 0, 10, 10);
+
+    // @ts-ignore For testing purposes only.
+    const tool = new ImTool(canvas);
+    tool.background('#dddddd');
+
+    const newCanvas = await tool.toCanvas();
+
+    expect(newCanvas.width).toBe(100);
+    expect(newCanvas.height).toBe(100);
+
+    const newCtx = newCanvas.getContext('2d')!;
+    const dataCleared = newCtx.getImageData(0, 0, 1, 1);
+    expect(Array.from(dataCleared.data)).toEqual([221, 221, 221, 255]);
+
+    const dataFilled = newCtx.getImageData(11, 11, 1, 1);
+    expect(Array.from(dataFilled.data)).toEqual([255, 255, 255, 255]);
+  });
 });

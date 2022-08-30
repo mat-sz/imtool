@@ -281,27 +281,27 @@ export class ImTool {
    * Sets the canvas background.
    * @param color Color can be any valid color string.
    */
-   background(color: string): ImTool {
-    const { width, height } = this.canvas
+  background(color: string): ImTool {
+    const { width, height } = this.canvas;
 
-    const newCanvas = document.createElement('canvas')
-    newCanvas.width = width
-    newCanvas.height = height
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = width;
+    newCanvas.height = height;
 
-    const ctx = newCanvas.getContext('2d')
+    const ctx = newCanvas.getContext('2d');
 
     if (!ctx) {
-      throw new Error('Context initialization failure.')
+      throw new Error('Context initialization failure.');
     }
 
-    ctx.fillStyle = color
-    ctx.fillRect(0, 0, width, height)
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, width, height);
 
-    ctx.drawImage(this.canvas, 0, 0, width, height)
+    ctx.drawImage(this.canvas, 0, 0, width, height);
 
-    this.canvas = newCanvas
+    this.canvas = newCanvas;
 
-    return this
+    return this;
   }
 
   /**
