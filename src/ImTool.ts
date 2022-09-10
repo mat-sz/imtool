@@ -1,4 +1,4 @@
-import { loadImage, emptyCanvas } from './utils';
+import { isTainted, loadImage, emptyCanvas } from './utils';
 
 export class ImTool {
   private canvas: HTMLCanvasElement;
@@ -53,15 +53,9 @@ export class ImTool {
     this.originalWidth = width;
     this.originalHeight = height;
 
-    if (!this.ctx) {
-      throw new Error('Context initialization failure.');
-    }
-
     this.ctx.drawImage(image, 0, 0, width, height);
 
-    try {
-      this.ctx.getImageData(0, 0, 1, 1);
-    } catch {
+    if (isTainted(ctx)) {
       throw new Error(
         'Canvas is tainted. Images must be from the same origin or current host must be specified in Access-Control-Allow-Origin.'
       );
@@ -84,10 +78,6 @@ export class ImTool {
    * @param height Height.
    */
   crop(x: number, y: number, width: number, height: number): ImTool {
-    if (width <= 0 || height <= 0) {
-      throw new Error('All arguments must be postive.');
-    }
-
     const { canvas, ctx } = emptyCanvas(width, height);
     ctx.drawImage(this.canvas, -x, -y, this.canvas.width, this.canvas.height);
     this.canvas = canvas;
@@ -101,10 +91,6 @@ export class ImTool {
    * @param height New height.
    */
   scale(width: number, height: number): ImTool {
-    if (width <= 0 || height <= 0) {
-      throw new Error('All arguments must be postive.');
-    }
-
     const { canvas, ctx } = emptyCanvas(width, height);
     ctx.drawImage(this.canvas, 0, 0, width, height);
     this.canvas = canvas;
