@@ -1,5 +1,6 @@
 import { ImTool } from './ImTool';
-import { ImageType, loadImage, fileToDataURL } from './Utils';
+import { loadImage, fileToDataURL } from './utils';
+import { ImageType } from './types';
 
 /**
  * Creates a new instance of ImTool from a <canvas> element.

@@ -1,8 +1,8 @@
-import { loadImage } from './Utils';
+import { loadImage, emptyCanvas } from './utils';
 
 export class ImTool {
-  private canvas = document.createElement('canvas');
-  private ctx = this.canvas.getContext('2d');
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
   private outputType = 'image/jpeg';
   private outputQuality = 0.7;
 
@@ -35,25 +35,29 @@ export class ImTool {
       throw new Error('Video stream is not fully loaded.');
     }
 
+    let width = image.width;
+    let height = image.height;
+
     if (image instanceof HTMLVideoElement) {
-      this.canvas.width = image.videoWidth;
-      this.canvas.height = image.videoHeight;
+      width = image.videoWidth;
+      height = image.videoHeight;
     } else if (image instanceof HTMLImageElement) {
-      this.canvas.width = image.naturalWidth;
-      this.canvas.height = image.naturalHeight;
-    } else {
-      this.canvas.width = image.width;
-      this.canvas.height = image.height;
+      width = image.naturalWidth;
+      height = image.naturalHeight;
     }
 
-    this.originalWidth = this.canvas.width;
-    this.originalHeight = this.canvas.height;
+    const { canvas, ctx } = emptyCanvas(width, height);
+    this.canvas = canvas;
+    this.ctx = ctx;
+
+    this.originalWidth = width;
+    this.originalHeight = height;
 
     if (!this.ctx) {
       throw new Error('Context initialization failure.');
     }
 
-    this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(image, 0, 0, width, height);
 
     try {
       this.ctx.getImageData(0, 0, 1, 1);
@@ -84,18 +88,9 @@ export class ImTool {
       throw new Error('All arguments must be postive.');
     }
 
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = width;
-    newCanvas.height = height;
-
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
-
+    const { canvas, ctx } = emptyCanvas(width, height);
     ctx.drawImage(this.canvas, -x, -y, this.canvas.width, this.canvas.height);
-    this.canvas = newCanvas;
+    this.canvas = canvas;
 
     return this;
   }
@@ -110,18 +105,9 @@ export class ImTool {
       throw new Error('All arguments must be postive.');
     }
 
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = width;
-    newCanvas.height = height;
-
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
-
+    const { canvas, ctx } = emptyCanvas(width, height);
     ctx.drawImage(this.canvas, 0, 0, width, height);
-    this.canvas = newCanvas;
+    this.canvas = canvas;
 
     return this;
   }
@@ -131,26 +117,19 @@ export class ImTool {
    * @param vertical When true the image will be flipped vertically, otherwise it will be flipped horizontally.
    */
   flip(vertical = false): ImTool {
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = this.canvas.width;
-    newCanvas.height = this.canvas.height;
-
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
+    const { width, height } = this.canvas;
+    const { canvas, ctx } = emptyCanvas(width, height);
 
     if (vertical) {
-      ctx.translate(0, this.canvas.height);
+      ctx.translate(0, height);
       ctx.scale(1, -1);
     } else {
-      ctx.translate(this.canvas.width, 0);
+      ctx.translate(width, 0);
       ctx.scale(-1, 1);
     }
 
-    ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
-    this.canvas = newCanvas;
+    ctx.drawImage(this.canvas, 0, 0, width, height);
+    this.canvas = canvas;
 
     return this;
   }
@@ -175,13 +154,6 @@ export class ImTool {
    * @param cover When true this will cause the thumbnail to be a square and image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off. Default: false.
    */
   thumbnail(maxSize: number, cover = false): ImTool {
-    const newCanvas = document.createElement('canvas');
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
-
     let scale = 1;
     let x = 0;
     let y = 0;
@@ -201,8 +173,8 @@ export class ImTool {
         y = (-1 * (height - maxSize)) / 2;
       }
 
-      newCanvas.width = maxSize;
-      newCanvas.height = maxSize;
+      width = maxSize;
+      height = maxSize;
     } else {
       // If any of the dimensions of the given image is higher than our maxSize
       // scale the image down, otherwise leave it as is.
@@ -213,13 +185,11 @@ export class ImTool {
 
       width = this.canvas.width * scale;
       height = this.canvas.height * scale;
-
-      newCanvas.width = width;
-      newCanvas.height = height;
     }
 
+    const { canvas, ctx } = emptyCanvas(width, height);
     ctx.drawImage(this.canvas, x, y, width, height);
-    this.canvas = newCanvas;
+    this.canvas = canvas;
 
     return this;
   }
@@ -229,8 +199,6 @@ export class ImTool {
    * @param rad Radians.
    */
   rotate(rad: number): ImTool {
-    const newCanvas = document.createElement('canvas');
-
     let angle = rad % (Math.PI * 2);
     if (angle > Math.PI / 2) {
       if (angle <= Math.PI) {
@@ -243,28 +211,21 @@ export class ImTool {
     }
 
     // Optimal dimensions for image after rotation.
-    newCanvas.width =
+    const width =
       this.canvas.width * Math.cos(angle) +
       this.canvas.height * Math.cos(Math.PI / 2 - angle);
-    newCanvas.height =
+    const height =
       this.canvas.width * Math.sin(angle) +
       this.canvas.height * Math.sin(Math.PI / 2 - angle);
 
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
+    const { canvas, ctx } = emptyCanvas(width, height);
 
     ctx.save();
-
-    ctx.translate(newCanvas.width / 2, newCanvas.height / 2);
+    ctx.translate(width / 2, height / 2);
     ctx.rotate(rad);
     ctx.drawImage(this.canvas, -this.canvas.width / 2, -this.canvas.height / 2);
-
     ctx.restore();
-
-    this.canvas = newCanvas;
+    this.canvas = canvas;
 
     return this;
   }
@@ -283,23 +244,12 @@ export class ImTool {
    */
   background(color: string): ImTool {
     const { width, height } = this.canvas;
-
-    const newCanvas = document.createElement('canvas');
-    newCanvas.width = width;
-    newCanvas.height = height;
-
-    const ctx = newCanvas.getContext('2d');
-
-    if (!ctx) {
-      throw new Error('Context initialization failure.');
-    }
+    const { canvas, ctx } = emptyCanvas(width, height);
 
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, width, height);
-
     ctx.drawImage(this.canvas, 0, 0, width, height);
-
-    this.canvas = newCanvas;
+    this.canvas = canvas;
 
     return this;
   }
@@ -371,21 +321,11 @@ export class ImTool {
    * Exports the resulting image as HTMLCanvasElement.
    */
   toCanvas(): Promise<HTMLCanvasElement> {
-    return new Promise((resolve, reject) => {
-      const newCanvas = document.createElement('canvas');
-      newCanvas.width = this.canvas.width;
-      newCanvas.height = this.canvas.height;
-
-      const ctx = newCanvas.getContext('2d');
-
-      if (!ctx) {
-        reject(new Error('Context initialization failure.'));
-        return;
-      }
-
-      ctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height);
-
-      resolve(newCanvas);
+    return new Promise(resolve => {
+      const { width, height } = this.canvas;
+      const { canvas, ctx } = emptyCanvas(width, height);
+      ctx.drawImage(this.canvas, 0, 0, width, height);
+      resolve(canvas);
     });
   }
 

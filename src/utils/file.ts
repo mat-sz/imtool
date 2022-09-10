@@ -1,5 +1,3 @@
-export type ImageType = string | Blob | File | HTMLImageElement;
-
 export function fileToDataURL(file: Blob): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
