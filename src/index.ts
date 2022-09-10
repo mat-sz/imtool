@@ -2,6 +2,8 @@ import { ImTool } from './ImTool';
 import { loadImage, fileToDataURL } from './utils';
 import { ImageType } from './types';
 
+export * as canvas from './utils/canvas';
+
 /**
  * Creates a new instance of ImTool from a <canvas> element.
  * @param video

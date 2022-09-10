@@ -1,8 +1,15 @@
-import { isTainted, loadImage, emptyCanvas } from './utils';
+import { ImageLike } from './types';
+import {
+  loadImage,
+  emptyCanvas,
+  thumbnail,
+  rotate,
+  flip,
+  fromImageLike,
+} from './utils';
 
 export class ImTool {
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
   private outputType = 'image/jpeg';
   private outputQuality = 0.7;
 
@@ -14,52 +21,10 @@ export class ImTool {
    * Do not use this directly, use from* functions from index.ts instead.
    * @param image Loaded image. Must be from the same origin, or from an origin accessible to the website.
    */
-  constructor(
-    image:
-      | HTMLCanvasElement
-      | HTMLImageElement
-      | HTMLVideoElement
-      | ImageBitmap
-      | OffscreenCanvas
-  ) {
-    if (
-      image instanceof HTMLImageElement &&
-      !image.complete &&
-      image.naturalWidth === 0
-    ) {
-      throw new Error('Image is not fully loaded.');
-    } else if (
-      image instanceof HTMLVideoElement &&
-      (image.readyState < 2 || image.ended)
-    ) {
-      throw new Error('Video stream is not fully loaded.');
-    }
-
-    let width = image.width;
-    let height = image.height;
-
-    if (image instanceof HTMLVideoElement) {
-      width = image.videoWidth;
-      height = image.videoHeight;
-    } else if (image instanceof HTMLImageElement) {
-      width = image.naturalWidth;
-      height = image.naturalHeight;
-    }
-
-    const { canvas, ctx } = emptyCanvas(width, height);
-    this.canvas = canvas;
-    this.ctx = ctx;
-
-    this.originalWidth = width;
-    this.originalHeight = height;
-
-    this.ctx.drawImage(image, 0, 0, width, height);
-
-    if (isTainted(ctx)) {
-      throw new Error(
-        'Canvas is tainted. Images must be from the same origin or current host must be specified in Access-Control-Allow-Origin.'
-      );
-    }
+  constructor(image: ImageLike) {
+    this.canvas = fromImageLike(image);
+    this.originalWidth = this.canvas.width;
+    this.originalHeight = this.canvas.height;
   }
 
   get width(): number {
@@ -103,20 +68,7 @@ export class ImTool {
    * @param vertical When true the image will be flipped vertically, otherwise it will be flipped horizontally.
    */
   flip(vertical = false): ImTool {
-    const { width, height } = this.canvas;
-    const { canvas, ctx } = emptyCanvas(width, height);
-
-    if (vertical) {
-      ctx.translate(0, height);
-      ctx.scale(1, -1);
-    } else {
-      ctx.translate(width, 0);
-      ctx.scale(-1, 1);
-    }
-
-    ctx.drawImage(this.canvas, 0, 0, width, height);
-    this.canvas = canvas;
-
+    this.canvas = flip(this.canvas, vertical);
     return this;
   }
 
@@ -140,43 +92,7 @@ export class ImTool {
    * @param cover When true this will cause the thumbnail to be a square and image will be centered with its smallest dimension becoming as large as maxDimension and the overflow being cut off. Default: false.
    */
   thumbnail(maxSize: number, cover = false): ImTool {
-    let scale = 1;
-    let x = 0;
-    let y = 0;
-    let width = 0;
-    let height = 0;
-
-    if (cover) {
-      if (this.canvas.width > this.canvas.height) {
-        scale = maxSize / this.canvas.height;
-        width = this.canvas.width * scale;
-        height = maxSize;
-        x = (-1 * (width - maxSize)) / 2;
-      } else {
-        scale = maxSize / this.canvas.width;
-        width = maxSize;
-        height = this.canvas.height * scale;
-        y = (-1 * (height - maxSize)) / 2;
-      }
-
-      width = maxSize;
-      height = maxSize;
-    } else {
-      // If any of the dimensions of the given image is higher than our maxSize
-      // scale the image down, otherwise leave it as is.
-      scale = Math.min(
-        Math.min(maxSize / this.canvas.width, maxSize / this.canvas.height),
-        1
-      );
-
-      width = this.canvas.width * scale;
-      height = this.canvas.height * scale;
-    }
-
-    const { canvas, ctx } = emptyCanvas(width, height);
-    ctx.drawImage(this.canvas, x, y, width, height);
-    this.canvas = canvas;
-
+    this.canvas = thumbnail(this.canvas, maxSize, cover);
     return this;
   }
 
@@ -185,34 +101,7 @@ export class ImTool {
    * @param rad Radians.
    */
   rotate(rad: number): ImTool {
-    let angle = rad % (Math.PI * 2);
-    if (angle > Math.PI / 2) {
-      if (angle <= Math.PI) {
-        angle = Math.PI - angle;
-      } else if (angle <= (Math.PI * 3) / 2) {
-        angle = angle - Math.PI;
-      } else {
-        angle = Math.PI * 2 - angle;
-      }
-    }
-
-    // Optimal dimensions for image after rotation.
-    const width =
-      this.canvas.width * Math.cos(angle) +
-      this.canvas.height * Math.cos(Math.PI / 2 - angle);
-    const height =
-      this.canvas.width * Math.sin(angle) +
-      this.canvas.height * Math.sin(Math.PI / 2 - angle);
-
-    const { canvas, ctx } = emptyCanvas(width, height);
-
-    ctx.save();
-    ctx.translate(width / 2, height / 2);
-    ctx.rotate(rad);
-    ctx.drawImage(this.canvas, -this.canvas.width / 2, -this.canvas.height / 2);
-    ctx.restore();
-    this.canvas = canvas;
-
+    this.canvas = rotate(this.canvas, rad);
     return this;
   }
 
