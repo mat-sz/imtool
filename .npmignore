@@ -1,5 +1,5 @@
 __tests__
-jest.config.js
+jest.config.ts
 yarn-error.log
 yarn.lock
 .prettierrc
