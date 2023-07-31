@@ -74,24 +74,26 @@ export function thumbnail(
   let scale = 1;
   let x = 0;
   let y = 0;
-  let width = 0;
-  let height = 0;
+  let imageWidth = 0;
+  let imageHeight = 0;
+  let canvasWidth = 0;
+  let canvasHeight = 0;
 
   if (cover) {
     if (input.width > input.height) {
       scale = maxSize / input.height;
-      width = input.width * scale;
-      height = maxSize;
-      x = (-1 * (width - maxSize)) / 2;
+      imageWidth = input.width * scale;
+      imageHeight = maxSize;
+      x = (-1 * (imageWidth - maxSize)) / 2;
     } else {
       scale = maxSize / input.width;
-      width = maxSize;
-      height = input.height * scale;
-      y = (-1 * (height - maxSize)) / 2;
+      imageWidth = maxSize;
+      imageHeight = input.height * scale;
+      y = (-1 * (imageHeight - maxSize)) / 2;
     }
 
-    width = maxSize;
-    height = maxSize;
+    canvasWidth = maxSize;
+    canvasHeight = maxSize;
   } else {
     // If any of the dimensions of the given image is higher than our maxSize
     // scale the image down, otherwise leave it as is.
@@ -100,12 +102,14 @@ export function thumbnail(
       1
     );
 
-    width = input.width * scale;
-    height = input.height * scale;
+    imageWidth = input.width * scale;
+    imageHeight = input.height * scale;
+    canvasWidth = imageWidth;
+    canvasHeight = imageHeight;
   }
 
-  const { canvas, ctx } = emptyCanvas(width, height);
-  ctx.drawImage(input, x, y, width, height);
+  const { canvas, ctx } = emptyCanvas(canvasWidth, canvasHeight);
+  ctx.drawImage(input, x, y, imageWidth, imageHeight);
 
   return canvas;
 }
